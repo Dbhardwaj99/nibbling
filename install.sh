@@ -17,12 +17,13 @@ fail() {
 }
 
 download() {
-  local status=0
-  curl -fsSL "$DOWNLOAD/$1" -o "$tmp/$1" || status=$?
-  if [ "$status" -eq 22 ]; then
-    fail "Couldn't find a Nibbling release to download."
-  elif [ "$status" -ne 0 ]; then
-    fail "The download failed. Check your connection and try again."
+  local code
+  code="$(curl -sSL -w '%{http_code}' -o "$tmp/$1" "$DOWNLOAD/$1")" \
+    || fail "The download failed. Check your connection and try again."
+  if [ "$code" = "404" ]; then
+    fail "There's no Nibbling release to download yet."
+  elif [ "$code" != "200" ]; then
+    fail "The download failed (HTTP $code). Try again later."
   fi
 }
 
