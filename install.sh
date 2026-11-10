@@ -10,6 +10,7 @@ set -euo pipefail
 DOWNLOAD="https://github.com/Dbhardwaj99/nibbling/releases/latest/download"
 APP="Nibbling.app"
 EXECUTABLE="$APP/Contents/MacOS/Nibbling"
+BUNDLE_ID="io.github.dbhardwaj99.Autocompleter"
 
 fail() {
   echo "Error: $1" >&2
@@ -63,8 +64,11 @@ main() {
   if pgrep -qf "$EXECUTABLE"; then
     echo "Quitting Nibbling..."
     pkill -f "$EXECUTABLE" || true
+    # Wait until the old copy has exited and macOS has let go of it too: opening the new copy
+    # while macOS still lists the old one fails with error -600.
     local waited=0
-    while pgrep -qf "$EXECUTABLE" && [ "$waited" -lt 20 ]; do
+    while { pgrep -qf "$EXECUTABLE" || [ -n "$(lsappinfo find "bundleid=$BUNDLE_ID")" ]; } \
+        && [ "$waited" -lt 40 ]; do
       sleep 0.5
       waited=$((waited + 1))
     done
@@ -82,7 +86,15 @@ main() {
   fi
 
   echo "Installed Nibbling in $dest. Opening it..."
-  open "$dest/$APP"
+  # If macOS is still letting go of the old copy, opening fails for a moment, so try a few times.
+  local tries=1
+  until open "$dest/$APP" 2>/dev/null; do
+    if [ "$tries" -ge 10 ]; then
+      fail "Nibbling is installed, but it didn't open. Open it from $dest."
+    fi
+    sleep 0.5
+    tries=$((tries + 1))
+  done
 }
 
 # Everything runs from here, so a download cut off halfway runs nothing.
