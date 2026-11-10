@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Nibbling's update feed (Sparkle). Copies from 0.1.3 on read this file once a day.
+     Add each release's item, from scripts/release.sh's appcast-item.xml, at the top of the items,
+     and push it only after the release and its Nibbling.zip are published. -->
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle">
+  <channel>
+    <title>Nibbling</title>
+  </channel>
+</rss>
