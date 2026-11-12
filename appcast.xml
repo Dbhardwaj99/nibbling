@@ -6,6 +6,13 @@
   <channel>
     <title>Nibbling</title>
     <item>
+      <title>Nibbling 0.1.6</title>
+      <pubDate>Thu, 12 Nov 2026 21:04:06 +0000</pubDate>
+      <sparkle:version>7</sparkle:version>
+      <sparkle:shortVersionString>0.1.6</sparkle:shortVersionString>
+      <enclosure url="https://github.com/Dbhardwaj99/nibbling/releases/download/v0.1.6/Nibbling.zip" sparkle:edSignature="jZgIuM/FiITrV2mDpZh1jL6pwoxfB+A9lUrzY5FtU+ziRf5uQ+uQkTzwsLyuB2Ndk4vGHi3elsvoxfgBXarVDg==" length="18797484" type="application/octet-stream"/>
+    </item>
+    <item>
       <title>Nibbling 0.1.5</title>
       <pubDate>Thu, 12 Nov 2026 08:15:28 +0000</pubDate>
       <sparkle:version>6</sparkle:version>
